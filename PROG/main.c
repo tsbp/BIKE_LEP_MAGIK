@@ -6,23 +6,23 @@ unsigned char byteReorder(unsigned char aByte)
 {
   unsigned char bOut = 0;
   
-//  if(aByte & (1 << 0)) bOut |= BIT7;
-//  if(aByte & (1 << 1)) bOut |= BIT6;
-//  if(aByte & (1 << 2)) bOut |= BIT0;
-//  if(aByte & (1 << 3)) bOut |= BIT5;
-//  if(aByte & (1 << 4)) bOut |= BIT1;
-//  if(aByte & (1 << 5)) bOut |= BIT3;
-//  if(aByte & (1 << 6)) bOut |= BIT2;
-//  if(aByte & (1 << 7)) bOut |= BIT4;  
+  if(aByte & (1 << 0)) bOut |= BIT7;
+  if(aByte & (1 << 1)) bOut |= BIT6;
+  if(aByte & (1 << 2)) bOut |= BIT0;
+  if(aByte & (1 << 3)) bOut |= BIT5;
+  if(aByte & (1 << 4)) bOut |= BIT1;
+  if(aByte & (1 << 5)) bOut |= BIT3;
+  if(aByte & (1 << 6)) bOut |= BIT2;
+  if(aByte & (1 << 7)) bOut |= BIT4;  
   
-  if(aByte & (1 << 0)) bOut |= BIT4;
-  if(aByte & (1 << 1)) bOut |= BIT2;
-  if(aByte & (1 << 2)) bOut |= BIT3;
-  if(aByte & (1 << 3)) bOut |= BIT1;
-  if(aByte & (1 << 4)) bOut |= BIT5;
-  if(aByte & (1 << 5)) bOut |= BIT0;
-  if(aByte & (1 << 6)) bOut |= BIT6;
-  if(aByte & (1 << 7)) bOut |= BIT7;  
+//  if(aByte & (1 << 0)) bOut |= BIT4;
+//  if(aByte & (1 << 1)) bOut |= BIT2;
+//  if(aByte & (1 << 2)) bOut |= BIT3;
+//  if(aByte & (1 << 3)) bOut |= BIT1;
+//  if(aByte & (1 << 4)) bOut |= BIT5;
+//  if(aByte & (1 << 5)) bOut |= BIT0;
+//  if(aByte & (1 << 6)) bOut |= BIT6;
+//  if(aByte & (1 << 7)) bOut |= BIT7;  
   
   return bOut;
 }
@@ -59,7 +59,7 @@ unsigned int ADCmeasure(void)
 //==============================================================================
 unsigned int adc;
 //==============================================================================
-unsigned char string[] = {"- * Егор * - * Siper bike * -"};
+unsigned char string[] = {"- * Егор * - * Biker * -"};
 //==============================================================================
 void main( void )
 {
@@ -96,19 +96,20 @@ __interrupt void sync_isr (void)
   __low_power_mode_off_on_exit();
 }
 //==============================================================================
-unsigned int blanc = 1;
+unsigned int blanc = 0;
 unsigned int symNumber, symByteNumber; 
 //==============================================================================
 // Timer_A3 Interrupt Vector (TAIV) handler
 #pragma vector=TIMER0_A0_VECTOR
 __interrupt void Timer_A(void)
 {
-  blanc ^= 1;
-  if(blanc) { P2OUT  = byteReorder(0);}
+  blanc++;
+  if(blanc > 1) { blanc = 0; P2OUT  = byteReorder(0);}
   else
   { 
     
     P2OUT  = byteReorder(Font8x6[string[symNumber] * 6 + symByteNumber] );
+    symByteNumber++; 
     
     if(symNumber > (sizeof(string)- 1)) 
     {
@@ -126,8 +127,7 @@ __interrupt void Timer_A(void)
       {
         symNumber++;
         symByteNumber = 0;
-      }
-      symByteNumber++;      
+      }           
     }    
   } 
  

@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=1655886578
+Checksum=1499602924
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -42,14 +42,14 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [State Storage]
-Control Register=0
+Control Register=59014
 [Sequencer]
-Control Register=0
-NextState0=0
-NextState1=0
+Control Register=59014
+NextState0=59014
+NextState1=59014
 [Action Register]
-Break=2
-State Storage=2
+Break=1
+State Storage=1
 [watch_formats]
 Fmt0={W}0:Font8x6[string[symNumber] * 6] + symByteNumber	5	0
 Fmt1={W}0:blanc	5	0
